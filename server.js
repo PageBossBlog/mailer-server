@@ -3,31 +3,17 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import senderRoute from "./routes/sender.route.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-app.use(cors({ origin: ["http://localhost:3000", "https://test-node-sender.onrender.com", "https://premium-nodemailer.onrender.com", "https://node-sender-bb4y0.onrender.com", "https://node-sender-stillbroke.onrender.com"], credentials: true }));
+app.use(cors({ origin: ["http://localhost:3000", "https://test-node-sender.onrender.com", "https://test-node-sender.onrender.com/amazon", "https://premium-nodemailer.onrender.com", "https://node-sender-bb4y0.onrender.com", "https://node-sender-bb4y0.onrender.com/amazon", "https://node-sender-stillbroke.onrender.com", "https://node-sender-stillbroke.onrender.com/amazon"], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'build')));
-
 // Use your existing routes
 app.use("/nodemailer", senderRoute);
-
-// Handle all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 // Error handling middleware
 app.use((error, req, res, next) => {
