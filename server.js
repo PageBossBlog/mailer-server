@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import senderRoute from "./routes/sender.route.js";
+import path from 'path';
 
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' })); // Increase the limit for JSON payload
