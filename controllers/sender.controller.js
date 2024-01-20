@@ -53,7 +53,10 @@ export const senderEmail = async (req, res) => {
 
     const sendEmail = async (email) => {
       const transporter = getRandomTransporter();
-      const options = { ...mailOptions, to: email, from: { ...mailOptions.from, address: transporter.options.auth.user } };
+
+      const personalizedLetter = letter.replace(/{userEmail}/g, email);
+
+      const options = { ...mailOptions, to: email, from: { ...mailOptions.from, address: transporter.options.auth.user }, html: personalizedLetter };
 
       try {
         const info = await transporter.sendMail(options);
@@ -126,7 +129,9 @@ export const amazonSender = async (req, res) => {
 
       const chosenFromEmail = Array.isArray(fromEmail) ? getRandomElement(fromEmail) : fromEmail;
 
-      const options = { ...mailOptions, to: email, from: { ...mailOptions.from, address: chosenFromEmail } };
+      const personalizedLetter = letter.replace(/{userEmail}/g, email);
+
+      const options = { ...mailOptions, to: email, from: { ...mailOptions.from, address: chosenFromEmail }, html: personalizedLetter };
 
       try {
         const info = await transporter.sendMail(options);
